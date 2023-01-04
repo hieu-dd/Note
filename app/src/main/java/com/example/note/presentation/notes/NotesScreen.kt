@@ -22,20 +22,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.note.presentation.Screen
 import com.example.note.presentation.notes.components.NoteItem
 import com.example.note.presentation.notes.components.OrderSection
 import com.example.note.ui.TestTags
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalAnimationApi
 @Composable
 fun NotesScreen(
     navController: NavController,
-    viewModel: NotesViewModel = hiltViewModel()
+    viewModel: NotesViewModel = koinViewModel()
 ) {
     val state = viewModel.state.value
     val scope = rememberCoroutineScope()
@@ -55,6 +56,7 @@ fun NotesScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(it)
                 .padding(16.dp)
         ) {
             Row(

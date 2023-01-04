@@ -2,14 +2,9 @@ package com.example.note.presentation
 
 import androidx.compose.ui.test.*
 import com.example.note.BaseAndroidTest
-import com.example.note.di.AppModule
 import com.example.note.ui.TestTags
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Test
 
-@HiltAndroidTest
-@UninstallModules(AppModule::class)
 class NotesEndToEndTest : BaseAndroidTest() {
 
     @Test

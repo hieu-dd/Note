@@ -1,45 +1,43 @@
 package com.example.note.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.note.data.data_source.NoteDataBase
 import com.example.note.data.repository.LocalNoteRepositoryImpl
 import com.example.note.domain.repository.NoteRepository
 import com.example.note.domain.use_case.*
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.example.note.presentation.add_edit_note.AddEditNoteViewModel
+import com.example.note.presentation.notes.NotesViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object TestAppModule {
-
-    @Provides
-    @Singleton
-    fun provideNoteDatabase(app: Application): NoteDataBase {
-        return Room.inMemoryDatabaseBuilder(
-            app,
-            NoteDataBase::class.java
-        ).allowMainThreadQueries()
-            .build()
+val testAppModule = module {
+    single<NoteDataBase> {
+        Room.inMemoryDatabaseBuilder(
+            get(),
+            NoteDataBase::class.java,
+        ).allowMainThreadQueries().build()
     }
 
-    @Provides
-    @Singleton
-    fun provideNoteRepository(db: NoteDataBase): NoteRepository {
-        return LocalNoteRepositoryImpl(db.noteDao)
+    single<NoteRepository> {
+        LocalNoteRepositoryImpl(get<NoteDataBase>().noteDao)
     }
 
-    @Provides
-    @Singleton
-    fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
-        return NoteUseCases(
-            getNotes = GetNotes(repository),
-            deleteNote = DeleteNote(repository),
-            addNote = AddNote(repository),
-            getNote = GetNote(repository)
+    single {
+        NoteUseCases(
+            getNotes = GetNotes(get()),
+            deleteNote = DeleteNote(get()),
+            getNote = GetNote(get()),
+            addNote = AddNote(get())
         )
+    }
+
+    viewModel {
+        NotesViewModel(get())
+    }
+    viewModel {
+        AddEditNoteViewModel(get(), get())
     }
 }

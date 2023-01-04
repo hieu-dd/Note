@@ -8,15 +8,12 @@ import com.example.note.domain.model.Note
 import com.example.note.domain.use_case.NoteUseCases
 import com.example.note.domain.util.NoteOrder
 import com.example.note.domain.util.OrderType
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NotesViewModel @Inject constructor(
+class NotesViewModel constructor(
     private val noteUseCases: NoteUseCases
 ) : ViewModel() {
 
@@ -41,18 +38,21 @@ class NotesViewModel @Inject constructor(
                 }
                 getNotes(event.noteOrder)
             }
+
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
                     noteUseCases.deleteNote(event.note)
                     recentlyDeletedNote = event.note
                 }
             }
+
             is NotesEvent.RestoreNote -> {
                 viewModelScope.launch {
                     noteUseCases.addNote(recentlyDeletedNote ?: return@launch)
                     recentlyDeletedNote = null
                 }
             }
+
             is NotesEvent.ToggleOrderSection -> {
                 _state.value = state.value.copy(
                     isOrderSectionVisible = !state.value.isOrderSectionVisible

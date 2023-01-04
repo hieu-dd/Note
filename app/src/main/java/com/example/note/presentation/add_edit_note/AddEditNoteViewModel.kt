@@ -9,14 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.note.domain.model.InvalidNoteException
 import com.example.note.domain.model.Note
 import com.example.note.domain.use_case.NoteUseCases
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class AddEditNoteViewModel @Inject constructor(
+class AddEditNoteViewModel constructor(
     private val noteUseCases: NoteUseCases,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
