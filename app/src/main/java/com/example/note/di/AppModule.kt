@@ -16,17 +16,16 @@ import com.example.note.presentation.notes.NotesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-
-val appModule = module {
-
-    single<NoteDataBase> {
+val productionModule = module {
+    single {
         Room.databaseBuilder(
-            get<Context>(),
+            get(),
             NoteDataBase::class.java,
             "note_db"
         ).allowMainThreadQueries().build()
     }
-
+}
+val appModule = module {
     single<NoteRepository> {
         LocalNoteRepositoryImpl(get<NoteDataBase>().noteDao)
     }
@@ -39,7 +38,6 @@ val appModule = module {
             addNote = AddNote(get())
         )
     }
-
     viewModel {
         NotesViewModel(get())
     }

@@ -2,6 +2,7 @@ package com.example.note
 
 import android.app.Application
 import com.example.note.di.appModule
+import com.example.note.di.productionModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -11,7 +12,7 @@ class NoteApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@NoteApp)
-            modules(appModule)
+            modules(appModule, productionModule)
         }
     }
 }
