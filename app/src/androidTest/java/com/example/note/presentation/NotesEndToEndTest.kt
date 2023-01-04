@@ -37,7 +37,11 @@ class NotesEndToEndTest : BaseAndroidTest() {
         // Add the text "2" to the title text field
         composeRule
             .onNodeWithTag(TestTags.TITLE_TEXT_FIELD)
-            .performTextInput("text-title2")
+            .apply {
+                performTextClearance()
+                performTextInput("text-title2")
+
+            }
         // Update the note
         composeRule.onNodeWithContentDescription("Save").performClick()
 
