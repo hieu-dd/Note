@@ -14,7 +14,7 @@ This project apply clean architecture with 3 modules: data, domain, presentation
   * ui: Jetpack compose
   * ViewModel
 * Di
-  * Hilt
+  * Koin
 
 # Demo testing for a project
 * Unit test
