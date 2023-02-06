@@ -1,4 +1,4 @@
-plugins {
+ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
@@ -45,6 +45,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -87,6 +90,8 @@ dependencies {
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.1"
     testImplementation "io.mockk:mockk:1.10.5"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.0-alpha03"
+    // Optional -- Mockito framework
+    testImplementation "io.mockk:mockk:1.12.1"
 
     // Instrumentation tests
     androidTestImplementation "junit:junit:4.13.2"
