@@ -1,7 +1,5 @@
 package com.example.note.di
 
-import android.app.Application
-import android.content.Context
 import androidx.room.Room
 import com.example.note.data.data_source.NoteDataBase
 import com.example.note.data.repository.LocalNoteRepositoryImpl

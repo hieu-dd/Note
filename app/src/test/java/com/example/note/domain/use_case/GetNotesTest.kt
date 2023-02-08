@@ -1,12 +1,16 @@
 package com.example.note.domain.use_case
 
-import com.example.note.data.repository.FakeNoteRepository
 import com.example.note.domain.model.Note
+import com.example.note.domain.repository.NoteRepository
 import com.example.note.domain.util.NoteOrder
 import com.example.note.domain.util.OrderType
 import com.google.common.truth.Truth.assertThat
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -15,12 +19,14 @@ import org.junit.Test
 class GetNotesTest {
 
     private lateinit var getNotes: GetNotes
-    private lateinit var fakeRepository: FakeNoteRepository
+
+    @MockK
+    private lateinit var mockRepository: NoteRepository
 
     @Before
     fun setUp() {
-        fakeRepository = FakeNoteRepository()
-        getNotes = GetNotes(fakeRepository)
+        mockRepository = mockk()
+        getNotes = GetNotes(mockRepository)
 
         val notesToInsert = mutableListOf<Note>()
         ('a'..'z').forEachIndexed { index, c ->
@@ -34,9 +40,7 @@ class GetNotesTest {
             )
         }
         notesToInsert.shuffle()
-        runTest {
-            notesToInsert.forEach { fakeRepository.insertNote(it) }
-        }
+        every { mockRepository.getNotes() } returns flow { emit(notesToInsert) }
     }
 
     @Test
